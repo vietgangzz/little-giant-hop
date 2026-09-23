@@ -14,7 +14,13 @@ Everything is made in this repo: the art is drawn in code from the approved bran
 - **Game feel**: hit-stop, a white flash, camera shake, slow motion, and music that goes muffled (low-pass filter) when you crash. There are haptics on hop, score, and hit.
 - **Game over card**: the score counts up with ticks, and you earn a medal (Bronze 10, Silver 20, Gold 30, Giant 50) with a mini mascot inside. Beating your best shows a "NEW BEST!" badge with confetti.
 - **Audio**: a 16-bar synthwave loop in A minor at 112 BPM (sidechain-pumped bass, a ping-pong-delayed arpeggio, and a lead melody) plus 9 sound effects. The score chime rises in pitch with your combo.
-- **Any screen**: all tuning is relative to screen height, so folded and unfolded iPhone Duo, standard iPhones, and Pro Max play the same. Folding or unfolding rebuilds the layout.
+- **Any screen**: all tuning is relative to screen height, so standard iPhones, Pro Max and both states of the iPhone Duo play the same.
+- **Foldable (iPhone Duo)**:
+  - Folded, the game is portrait like a normal phone. Unfolded, it fills the wide screen in landscape. The orientation is picked per scene through `supportedInterfaceOrientations(for:)`, new in iOS 27.
+  - Folding or unfolding keeps your run. Both states have almost the same height (678 vs 669 pt), so only the width changes.
+  - The system rotation animation is switched off. Instead, the game runs its own unfold: the picture you were looking at stays on the right panel, then the world glides into the new framing while a lime seam sweeps across the opening.
+  - `UIHingeInteraction` (iOS 27.1) pauses play while the hinge is moving ("HOLD ON…") and counts back in with "GO!" once it settles.
+  - The layout stays centred in both states.
 
 ## Build & run
 
@@ -43,6 +49,16 @@ xcrun simctl launch booted studio.vgang.littlegianthop -autopilot      # plays f
 xcrun simctl launch booted studio.vgang.littlegianthop -autopilot 14   # lets go at 14 to show the crash
 ```
 
+### Fold demo
+
+Neither `simctl` nor the automation tools can fold the simulator, so `-foldDemo` fakes it. It narrows and widens the game view every few seconds and sends fake hinge updates, which exercises the unfold path on any simulator:
+
+```sh
+xcrun simctl launch booted studio.vgang.littlegianthop -foldDemo -autopilot
+```
+
+Debug builds log fold events with a `[LGH]` prefix (hinge state and angle, scene geometry, size transitions).
+
 ## Regenerating assets
 
 ```sh
@@ -57,7 +73,7 @@ python3 tools/make_icon.py LittleGiantHop/Resources/Assets.xcassets/AppIcon.appi
 
 ```
 LittleGiantHop/
-  App/LittleGiantHopApp.swift   SwiftUI entry, hosts the SKView
+  App/LittleGiantHopApp.swift   UIKit app/scene delegates, orientation per fold state, hinge + crease hooks
   Game/GameScene.swift          state machine, physics, scoring, juice, game-over card
   Game/Mascot.swift             Little Giant built from brand vectors
   Game/Backdrop.swift           sky, sun, skyline parallax, neon floor, themes
