@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D080D674495CD342274622A /* hop.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42C80CAED7F0C213A9AAF59 /* hop.caf */; };
+		38CA558D9A4AED40EC3F59A1 /* Art.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9D1A294DF115B0E14A4702 /* Art.swift */; };
+		41163D8FFD2E523719472E9F /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80FD83AD901981003C7D671 /* HUD.swift */; };
+		42018F295DC879AA00874E9B /* fall.caf in Resources */ = {isa = PBXBuildFile; fileRef = C2334074093013B719ADEA93 /* fall.caf */; };
+		4660E86BE8E3D8D71082CC74 /* score.caf in Resources */ = {isa = PBXBuildFile; fileRef = D417D0F4D0879B1AC607788A /* score.caf */; };
+		4C182B8670549D2EB7F046B7 /* music.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9F2E88FA94F73E80F4303BE4 /* music.caf */; };
+		50BDA660D3087780CB58B70B /* spark.caf in Resources */ = {isa = PBXBuildFile; fileRef = C3B888F84537D7C303EA0190 /* spark.caf */; };
+		574343DB5DCBB25E484FD20B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC86EA65431D252CCCC5325 /* Assets.xcassets */; };
+		61609149762B18F339D082FC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FB98F34F46220E31F3285F /* GameScene.swift */; };
+		678A91EF6C93B71CCEEF1755 /* swoosh.caf in Resources */ = {isa = PBXBuildFile; fileRef = 02BEBE240923005EAC49FDAD /* swoosh.caf */; };
+		73ACBFA16A90B393CEFE3EA1 /* Backdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97E0D026200BA6F7BBE8CDA /* Backdrop.swift */; };
+		75BDF7EDC167A2A6A991C828 /* tap.caf in Resources */ = {isa = PBXBuildFile; fileRef = 03806A7EDF273FAA203825A8 /* tap.caf */; };
+		7C9A80EFC6BC9583843A13C3 /* milestone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 41B00CD3FF13339D93F5F0F5 /* milestone.caf */; };
+		911C3E4DBF9892BBA4D878D5 /* hit.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3785CF35360113B6C8081539 /* hit.caf */; };
+		AE87E8F37E037C76F6808159 /* SoundBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819DC828EA3FE606F2EA64B /* SoundBoard.swift */; };
+		C51214A7322EE3BD7ED86D3D /* LittleGiantHopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD16347B84E5949B6C88B0B /* LittleGiantHopApp.swift */; };
+		C51E40FF9F931FE4E5EB28AB /* Obstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAB194825CDCBEB64C028BF /* Obstacles.swift */; };
+		C6CB91F327C1890931D8C585 /* Mascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE6DC9FDE7C132592F53EE3 /* Mascot.swift */; };
+		EFC6C0A9C447B07188C5C7C0 /* gameover.caf in Resources */ = {isa = PBXBuildFile; fileRef = 612119096A148A1D30A6857F /* gameover.caf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		02BEBE240923005EAC49FDAD /* swoosh.caf */ = {isa = PBXFileReference; path = swoosh.caf; sourceTree = "<group>"; };
+		03806A7EDF273FAA203825A8 /* tap.caf */ = {isa = PBXFileReference; path = tap.caf; sourceTree = "<group>"; };
+		153C2D6E4B0BDCCBAB2F226F /* LittleGiantHop.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LittleGiantHop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1819DC828EA3FE606F2EA64B /* SoundBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundBoard.swift; sourceTree = "<group>"; };
+		1DE6DC9FDE7C132592F53EE3 /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
+		3785CF35360113B6C8081539 /* hit.caf */ = {isa = PBXFileReference; path = hit.caf; sourceTree = "<group>"; };
+		41B00CD3FF13339D93F5F0F5 /* milestone.caf */ = {isa = PBXFileReference; path = milestone.caf; sourceTree = "<group>"; };
+		4BC86EA65431D252CCCC5325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4CD16347B84E5949B6C88B0B /* LittleGiantHopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleGiantHopApp.swift; sourceTree = "<group>"; };
+		612119096A148A1D30A6857F /* gameover.caf */ = {isa = PBXFileReference; path = gameover.caf; sourceTree = "<group>"; };
+		6C9D1A294DF115B0E14A4702 /* Art.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Art.swift; sourceTree = "<group>"; };
+		9F2E88FA94F73E80F4303BE4 /* music.caf */ = {isa = PBXFileReference; path = music.caf; sourceTree = "<group>"; };
+		A97E0D026200BA6F7BBE8CDA /* Backdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
+		B42C80CAED7F0C213A9AAF59 /* hop.caf */ = {isa = PBXFileReference; path = hop.caf; sourceTree = "<group>"; };
+		B80FD83AD901981003C7D671 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		C2334074093013B719ADEA93 /* fall.caf */ = {isa = PBXFileReference; path = fall.caf; sourceTree = "<group>"; };
+		C3B888F84537D7C303EA0190 /* spark.caf */ = {isa = PBXFileReference; path = spark.caf; sourceTree = "<group>"; };
+		C8FB98F34F46220E31F3285F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D417D0F4D0879B1AC607788A /* score.caf */ = {isa = PBXFileReference; path = score.caf; sourceTree = "<group>"; };
+		FBAB194825CDCBEB64C028BF /* Obstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacles.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		11D6B64605F751E83A6BAC1E /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				6C9D1A294DF115B0E14A4702 /* Art.swift */,
+				A97E0D026200BA6F7BBE8CDA /* Backdrop.swift */,
+				C8FB98F34F46220E31F3285F /* GameScene.swift */,
+				B80FD83AD901981003C7D671 /* HUD.swift */,
+				1DE6DC9FDE7C132592F53EE3 /* Mascot.swift */,
+				FBAB194825CDCBEB64C028BF /* Obstacles.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		578471F4050A90CDAA49949A /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				1819DC828EA3FE606F2EA64B /* SoundBoard.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		71388F9C59A0913FD589E369 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4BC86EA65431D252CCCC5325 /* Assets.xcassets */,
+				E8F1D60EEE1DA4F1A505A051 /* Sounds */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7FBC5288D737F66CDE1C8813 = {
+			isa = PBXGroup;
+			children = (
+				BC97314F3D9968A0A9F9D9C4 /* LittleGiantHop */,
+				B525EB97839CB71176B61A13 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B525EB97839CB71176B61A13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				153C2D6E4B0BDCCBAB2F226F /* LittleGiantHop.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC97314F3D9968A0A9F9D9C4 /* LittleGiantHop */ = {
+			isa = PBXGroup;
+			children = (
+				F80F8377877F54940B6568B2 /* App */,
+				578471F4050A90CDAA49949A /* Audio */,
+				11D6B64605F751E83A6BAC1E /* Game */,
+				71388F9C59A0913FD589E369 /* Resources */,
+			);
+			path = LittleGiantHop;
+			sourceTree = "<group>";
+		};
+		E8F1D60EEE1DA4F1A505A051 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C2334074093013B719ADEA93 /* fall.caf */,
+				612119096A148A1D30A6857F /* gameover.caf */,
+				3785CF35360113B6C8081539 /* hit.caf */,
+				B42C80CAED7F0C213A9AAF59 /* hop.caf */,
+				41B00CD3FF13339D93F5F0F5 /* milestone.caf */,
+				9F2E88FA94F73E80F4303BE4 /* music.caf */,
+				D417D0F4D0879B1AC607788A /* score.caf */,
+				C3B888F84537D7C303EA0190 /* spark.caf */,
+				02BEBE240923005EAC49FDAD /* swoosh.caf */,
+				03806A7EDF273FAA203825A8 /* tap.caf */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		F80F8377877F54940B6568B2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				4CD16347B84E5949B6C88B0B /* LittleGiantHopApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F15022CE61B162088646CAE2 /* LittleGiantHop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5FCFB5760E605805D37CD347 /* Build configuration list for PBXNativeTarget "LittleGiantHop" */;
+			buildPhases = (
+				6FCD07B4FF1B84F6395D4F32 /* Sources */,
+				9C8002FC8A1F19636158CCEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LittleGiantHop;
+			packageProductDependencies = (
+			);
+			productName = LittleGiantHop;
+			productReference = 153C2D6E4B0BDCCBAB2F226F /* LittleGiantHop.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CA1E1DA25CD15F9425FFE32 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					F15022CE61B162088646CAE2 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 53573768F05BD12484F30E32 /* Build configuration list for PBXProject "LittleGiantHop" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 7FBC5288D737F66CDE1C8813;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B525EB97839CB71176B61A13 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F15022CE61B162088646CAE2 /* LittleGiantHop */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9C8002FC8A1F19636158CCEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				574343DB5DCBB25E484FD20B /* Assets.xcassets in Resources */,
+				42018F295DC879AA00874E9B /* fall.caf in Resources */,
+				EFC6C0A9C447B07188C5C7C0 /* gameover.caf in Resources */,
+				911C3E4DBF9892BBA4D878D5 /* hit.caf in Resources */,
+				2D080D674495CD342274622A /* hop.caf in Resources */,
+				7C9A80EFC6BC9583843A13C3 /* milestone.caf in Resources */,
+				4C182B8670549D2EB7F046B7 /* music.caf in Resources */,
+				4660E86BE8E3D8D71082CC74 /* score.caf in Resources */,
+				50BDA660D3087780CB58B70B /* spark.caf in Resources */,
+				678A91EF6C93B71CCEEF1755 /* swoosh.caf in Resources */,
+				75BDF7EDC167A2A6A991C828 /* tap.caf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FCD07B4FF1B84F6395D4F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38CA558D9A4AED40EC3F59A1 /* Art.swift in Sources */,
+				73ACBFA16A90B393CEFE3EA1 /* Backdrop.swift in Sources */,
+				61609149762B18F339D082FC /* GameScene.swift in Sources */,
+				41163D8FFD2E523719472E9F /* HUD.swift in Sources */,
+				C51214A7322EE3BD7ED86D3D /* LittleGiantHopApp.swift in Sources */,
+				C6CB91F327C1890931D8C585 /* Mascot.swift in Sources */,
+				C51E40FF9F931FE4E5EB28AB /* Obstacles.swift in Sources */,
+				AE87E8F37E037C76F6808159 /* SoundBoard.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		61BF5111B3B1C55B1747A14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7E9AF1691F52B620FFBF52E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B56F0DF1E8E1A8D9B365F7E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "LG Hop";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.vgang.littlegianthop;
+				PRODUCT_NAME = "Little Giant Hop";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		EAE4F21D297AE42793E59BB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "LG Hop";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.vgang.littlegianthop;
+				PRODUCT_NAME = "Little Giant Hop";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		53573768F05BD12484F30E32 /* Build configuration list for PBXProject "LittleGiantHop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E9AF1691F52B620FFBF52E0 /* Debug */,
+				61BF5111B3B1C55B1747A14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5FCFB5760E605805D37CD347 /* Build configuration list for PBXNativeTarget "LittleGiantHop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAE4F21D297AE42793E59BB4 /* Debug */,
+				B56F0DF1E8E1A8D9B365F7E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3CA1E1DA25CD15F9425FFE32 /* Project object */;
+}
