@@ -60,6 +60,14 @@ final class GameScene: SKScene {
     }()
     private var autoRestartAt: TimeInterval = 0
 
+    // Foldable support (iPhone Duo).
+    enum Hinge { case closed, moving, open, unavailable }
+    private var hingeHold = false
+    private var holdLabel: PosterLabel?
+    private var snapshot: SKTexture?
+    private var leaf: SKNode?
+    private var hudCenterX: CGFloat = 0
+
     private var best: Int {
         get { UserDefaults.standard.integer(forKey: "best") }
         set { UserDefaults.standard.set(newValue, forKey: "best") }
@@ -71,6 +79,11 @@ final class GameScene: SKScene {
     private var radius: CGFloat { H * Tune.radius }
     private var homeX: CGFloat { min(W * 0.32, H * 0.3) }
     private var safeTop: CGFloat { max(view?.safeAreaInsets.top ?? 0, H * 0.03) }
+
+    /// Everything is centred, folded or unfolded.
+    private var uiX: CGFloat { W / 2 }
+    private var restX: CGFloat { W / 2 }
+    private var paneWidth: CGFloat { W }
 
     // MARK: lifecycle
 
@@ -87,10 +100,172 @@ final class GameScene: SKScene {
 
     override func didChangeSize(_ oldSize: CGSize) {
         super.didChangeSize(oldSize)
-        guard view != nil, size.width > 10, size.height > 10 else { return }
-        if abs(size.width - layoutSize.width) > 1 || abs(size.height - layoutSize.height) > 1 {
+        guard view != nil, backdrop != nil, size.width > 10, size.height > 10 else { return }
+        let old = layoutSize
+        guard abs(size.width - old.width) > 1 || abs(size.height - old.height) > 1 else { return }
+        FoldLog.log("scene \(old) -> \(size) state=\(state)")
+        if abs(size.height - old.height) <= old.height * 0.03 {
+            // Fold / unfold keeps the height and changes the width, and all
+            // gameplay is sized by height: keep the run going.
+            relayoutWidth(from: old)
+        } else {
             rebuild()
+            crossfadeFromSnapshot()
         }
+        snapshot = nil
+    }
+
+    private func relayoutWidth(from old: CGSize) {
+        layoutSize = size
+        let theme = backdrop.themeIndex
+        backdrop.removeFromParent()
+        backdrop = Backdrop(size: size, theme: theme)
+        world.addChild(backdrop)
+        backdrop.update(distance: distance, time: clock)
+        layoutHUD()
+        unfold(from: old)
+    }
+
+    /// Positions everything that depends on width or panes. Safe to call any time.
+    private func layoutHUD() {
+        cam.position = CGPoint(x: W / 2, y: H / 2)
+        hud.position = CGPoint(x: -W / 2, y: -H / 2)
+        scoreLabel.position = CGPoint(x: uiX, y: H - safeTop - H * 0.07)
+        hud.childNode(withName: "mark")?.position = CGPoint(x: uiX, y: groundY * 0.3)
+        flash.size = size
+        let readyAlpha = readyLayer.alpha
+        readyLayer.removeFromParent()
+        buildReadyLayer()
+        readyLayer.alpha = state == .ready ? readyAlpha : 0
+        updateBestText()
+        overLayer.position.x += uiX - hudCenterX
+        if let dim = overLayer.childNode(withName: "dim") as? SKSpriteNode {
+            dim.size = size
+            dim.position.x = -overLayer.position.x
+        }
+        holdLabel?.position = CGPoint(x: uiX, y: H * 0.5)
+        hudCenterX = uiX
+    }
+
+    /// The panel that stays put while unfolding is the right-hand one, so the
+    /// world starts where the player was looking and glides into its new
+    /// framing, with a light seam sweeping across the opening.
+    private func unfold(from old: CGSize) {
+        let dx = W - old.width
+        world.removeAction(forKey: "unfold")
+        world.position.x = dx
+        let glide = SKAction.moveTo(x: 0, duration: 0.85)
+        glide.timingFunction = { t in let u = 1 - t; return 1 - u * u * u }
+        world.run(glide, withKey: "unfold")
+
+        leaf?.removeFromParent()
+        let leaf = SKNode()
+        leaf.zPosition = 40
+        let shade = SKSpriteNode(color: Palette.ink, size: CGSize(width: 1, height: H))
+        shade.name = "shade"
+        shade.anchorPoint = .zero
+        leaf.addChild(shade)
+        let seam = SKSpriteNode(texture: Art.softDot)
+        seam.name = "seam"
+        seam.size = CGSize(width: H * 0.06, height: H * 1.2)
+        seam.color = Palette.lime
+        seam.colorBlendFactor = 1
+        seam.blendMode = .add
+        leaf.addChild(seam)
+        hud.addChild(leaf)
+        self.leaf = leaf
+        updateLeaf()
+        leaf.run(.sequence([.wait(forDuration: 0.8), .fadeOut(withDuration: 0.25), .removeFromParent()]))
+
+        cam.removeAction(forKey: "zoom")
+        cam.setScale(0.95)
+        let settle = SKAction.scale(to: 1, duration: 0.7)
+        settle.timingMode = .easeOut
+        cam.run(settle, withKey: "zoom")
+        SoundBoard.shared.play(.swoosh, volume: 0.8, pitch: dx > 0 ? 0.8 : 1.2)
+        Haptics.score()
+    }
+
+    /// Covers the strip the gliding world has not reached yet.
+    private func updateLeaf() {
+        guard let leaf, leaf.parent != nil,
+              let shade = leaf.childNode(withName: "shade") as? SKSpriteNode,
+              let seam = leaf.childNode(withName: "seam") else { return }
+        let x = world.position.x
+        shade.size = CGSize(width: abs(x), height: H)
+        shade.position = CGPoint(x: x > 0 ? 0 : W + x, y: 0)
+        seam.position = CGPoint(x: x > 0 ? x : W + x, y: H / 2)
+    }
+
+    private func crossfadeFromSnapshot() {
+        guard let snapshot else { return }
+        let sprite = SKSpriteNode(texture: snapshot)
+        let s = snapshot.size()
+        let k = max(W / s.width, H / s.height)
+        sprite.size = CGSize(width: s.width * k, height: s.height * k)
+        sprite.position = CGPoint(x: W / 2, y: H / 2)
+        sprite.zPosition = 60
+        hud.addChild(sprite)
+        sprite.run(.sequence([.fadeOut(withDuration: 0.4), .removeFromParent()]))
+    }
+
+    // MARK: foldable hooks (called by GameViewController)
+
+    func captureSnapshot(from view: SKView) {
+        snapshot = view.texture(from: self)
+    }
+
+    /// Freezes a run while the hinge is moving so an unfold can't kill you,
+    /// then counts back in once it settles.
+    func hingeChanged(_ hinge: Hinge, angle: CGFloat) {
+        switch hinge {
+        case .moving:
+            if state == .playing { holdForHinge() }
+        case .closed, .open, .unavailable:
+            if hingeHold { releaseHinge() }
+        }
+    }
+
+    private func holdForHinge() {
+        removeAction(forKey: "hinge")
+        hingeHold = true
+        trail.particleBirthRate = 0
+        SoundBoard.shared.setMuffle(0.6)
+        if holdLabel == nil {
+            let label = PosterLabel("HOLD ON…", size: H * 0.05, color: Palette.lime)
+            label.zPosition = 45
+            hud.addChild(label)
+            holdLabel = label
+        }
+        holdLabel?.text = "HOLD ON…"
+        holdLabel?.color = Palette.lime
+        holdLabel?.position = CGPoint(x: uiX, y: H * 0.5)
+        if let holdLabel { Motion.pop(holdLabel, from: 0.3) }
+    }
+
+    private func releaseHinge() {
+        run(.sequence([
+            .wait(forDuration: 0.6),
+            .run { [weak self] in
+                guard let self, let label = self.holdLabel else { return }
+                label.text = "GO!"
+                label.color = Palette.orange
+                Motion.pop(label, from: 1.8)
+                SoundBoard.shared.play(.tap, volume: 0.6, pitch: 1.3)
+            },
+            .wait(forDuration: 0.35),
+            .run { [weak self] in
+                guard let self else { return }
+                self.holdLabel?.run(.sequence([.fadeOut(withDuration: 0.15), .removeFromParent()]))
+                self.holdLabel = nil
+                self.hingeHold = false
+                SoundBoard.shared.setMuffle(0)
+                if self.state == .playing {
+                    self.trail.particleBirthRate = 55
+                    self.hop()
+                }
+            },
+        ]), withKey: "hinge")
     }
 
     private func rebuild() {
@@ -100,6 +275,11 @@ final class GameScene: SKScene {
         hud.removeFromParent()
         pillars.removeAll()
         sparks.removeAll()
+        overLayer = SKNode()
+        leaf = nil
+        holdLabel = nil
+        hingeHold = false
+        world.position = .zero
 
         cam.position = CGPoint(x: W / 2, y: H / 2)
         hud.position = CGPoint(x: -W / 2, y: -H / 2)
@@ -128,15 +308,16 @@ final class GameScene: SKScene {
         world.addChild(mascot)
 
         scoreLabel = PosterLabel("0", size: H * 0.1, color: Palette.paper)
-        scoreLabel.position = CGPoint(x: W / 2, y: H - safeTop - H * 0.07)
+        scoreLabel.position = CGPoint(x: uiX, y: H - safeTop - H * 0.07)
         scoreLabel.alpha = 0
         hud.addChild(scoreLabel)
 
         let mark = SKLabelNode(fontNamed: Fonts.mono)
         mark.text = "vgang.studio"
+        mark.name = "mark"
         mark.fontSize = max(10, H * 0.014)
         mark.fontColor = Palette.paper.withAlphaComponent(0.35)
-        mark.position = CGPoint(x: W / 2, y: groundY * 0.3)
+        mark.position = CGPoint(x: uiX, y: groundY * 0.3)
         hud.addChild(mark)
 
         flash = SKSpriteNode(color: .white, size: size)
@@ -145,6 +326,7 @@ final class GameScene: SKScene {
         flash.zPosition = 50
         hud.addChild(flash)
 
+        hudCenterX = uiX
         buildReadyLayer()
         enterReady(animated: false)
     }
@@ -156,26 +338,26 @@ final class GameScene: SKScene {
         readyLayer.zPosition = 10
         hud.addChild(readyLayer)
 
-        let titleSize = min(H * 0.075, W * 0.14)
+        let titleSize = min(H * 0.075, paneWidth * 0.14)
         let title = PosterLabel("LITTLE GIANT", size: titleSize, color: Palette.lime)
-        title.position = CGPoint(x: W / 2, y: H * 0.8 - safeTop * 0.3)
+        title.position = CGPoint(x: uiX, y: H * 0.8 - safeTop * 0.3)
         readyLayer.addChild(title)
 
         let hop = PosterLabel("HOP!", size: titleSize * 1.6, color: Palette.orange, depth: titleSize * 0.09)
-        hop.position = CGPoint(x: W / 2, y: title.position.y - titleSize * 1.25)
+        hop.position = CGPoint(x: uiX, y: title.position.y - titleSize * 1.25)
         hop.zRotation = 0.07
         readyLayer.addChild(hop)
         Motion.pulse(hop, amount: 1.06, period: 1.1)
 
         let hint = PosterLabel("TAP TO HOP", size: H * 0.03, color: Palette.paper, font: Fonts.bold)
-        hint.position = CGPoint(x: W / 2, y: groundY + H * 0.14)
+        hint.position = CGPoint(x: uiX, y: groundY + H * 0.14)
         readyLayer.addChild(hint)
         hint.run(.repeatForever(.sequence([.fadeAlpha(to: 0.35, duration: 0.6), .fadeAlpha(to: 1, duration: 0.6)])))
 
         let ring = SKShapeNode(circleOfRadius: H * 0.03)
         ring.strokeColor = Palette.lime
         ring.lineWidth = 2
-        ring.position = CGPoint(x: W / 2, y: groundY + H * 0.085)
+        ring.position = CGPoint(x: uiX, y: groundY + H * 0.085)
         readyLayer.addChild(ring)
         let tapDot = SKShapeNode(circleOfRadius: H * 0.011)
         tapDot.fillColor = Palette.lime
@@ -191,7 +373,7 @@ final class GameScene: SKScene {
         bestLabel.name = "best"
         bestLabel.fontSize = max(11, H * 0.017)
         bestLabel.fontColor = Palette.mute
-        bestLabel.position = CGPoint(x: W / 2, y: groundY + H * 0.03)
+        bestLabel.position = CGPoint(x: uiX, y: groundY + H * 0.03)
         readyLayer.addChild(bestLabel)
     }
 
@@ -209,20 +391,24 @@ final class GameScene: SKScene {
 
         mascot.revive()
         mascot.zRotation = 0
-        mx = animated ? -H * 0.1 : W * 0.5
+        mx = animated ? -H * 0.1 : restX
         my = H * 0.52
         vy = 0
         lastGapCenter = H * 0.5
         backdrop.setTheme(0)
         trail.particleBirthRate = 0
 
-        (readyLayer.childNode(withName: "best") as? SKLabelNode)?.text = best > 0 ? "BEST \(best)" : "vgang presents"
+        updateBestText()
         readyLayer.removeAllActions()
         readyLayer.alpha = 0
         readyLayer.run(.fadeIn(withDuration: animated ? 0.35 : 0.6))
         scoreLabel.run(.fadeOut(withDuration: 0.2))
         SoundBoard.shared.setMuffle(0)
         SoundBoard.shared.setMusicLevel(0.45)
+    }
+
+    private func updateBestText() {
+        (readyLayer.childNode(withName: "best") as? SKLabelNode)?.text = best > 0 ? "BEST \(best)" : "vgang presents"
     }
 
     private func start() {
@@ -256,7 +442,7 @@ final class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch state {
         case .ready: start()
-        case .playing: hop()
+        case .playing: if !hingeHold { hop() }
         case .dying: break
         case .over: if canRestart { restart() }
         }
@@ -280,14 +466,14 @@ final class GameScene: SKScene {
         guard backdrop != nil else { return }
         if hitStop > 0 { hitStop -= raw; return }
         timeScale += (1 - timeScale) * CGFloat(min(1, raw * 1.6))
-        let dt = CGFloat(raw) * timeScale
+        let dt = hingeHold && state == .playing ? 0 : CGFloat(raw) * timeScale
         clock += Double(dt)
 
         switch state {
         case .ready:
             if autopilot.on, clock > autoRestartAt { start() }
             speedNow = H * Tune.speed(0) * 0.55
-            mx += (W * 0.5 - mx) * min(1, dt * 4)
+            mx += (restX - mx) * min(1, dt * 4)
             my = H * 0.52 + sin(CGFloat(clock) * 2.6) * H * 0.018
             mascot.zRotation = sin(CGFloat(clock) * 2.6 + 1) * 0.06
             mascot.look(dy: cos(CGFloat(clock) * 2.6))
@@ -319,6 +505,7 @@ final class GameScene: SKScene {
         }
 
         backdrop.update(distance: distance, time: clock)
+        updateLeaf()
         mascot.position = CGPoint(x: mx, y: my)
         let lift = ((my - groundY) / (H * 0.8)).clamped(0, 1)
         shadowBlob.position = CGPoint(x: mx, y: groundY + 1)
@@ -396,6 +583,10 @@ final class GameScene: SKScene {
             pair.drift = (H * 0.055, .random(1.1, 1.8), .random(0, .pi * 2))
         }
         world.addChild(pair)
+        if x < W {
+            pair.alpha = 0
+            pair.run(.fadeIn(withDuration: 0.35))
+        }
 
         if let prev = pillars.last, score >= 1 || CGFloat.random(0, 1) < 0.5, CGFloat.random(0, 1) < 0.5 {
             let spark = Spark(size: H * 0.05)
@@ -453,9 +644,9 @@ final class GameScene: SKScene {
         flash.run(.sequence([.fadeAlpha(to: 0.18, duration: 0.05), .fadeOut(withDuration: 0.5)]))
 
         let line = GameScene.milestoneLines[(n - 1) % GameScene.milestoneLines.count]
-        let banner = PosterLabel(line, size: min(H * 0.065, W * 0.12), color: Palette.lime,
+        let banner = PosterLabel(line, size: min(H * 0.065, paneWidth * 0.12), color: Palette.lime,
                                  depth: H * 0.006)
-        banner.position = CGPoint(x: W / 2, y: H * 0.66)
+        banner.position = CGPoint(x: uiX, y: H * 0.66)
         banner.zRotation = -0.05
         banner.zPosition = 20
         hud.addChild(banner)
@@ -463,7 +654,7 @@ final class GameScene: SKScene {
         banner.run(.sequence([.wait(forDuration: 1.1),
                               .group([.fadeOut(withDuration: 0.35), .moveBy(x: 0, y: H * 0.05, duration: 0.35)]),
                               .removeFromParent()]))
-        confetti(from: CGPoint(x: W / 2, y: H + 10), spread: .pi * 0.45)
+        confetti(from: CGPoint(x: uiX, y: H + 10), spread: .pi * 0.45)
     }
 
     private func confetti(from p: CGPoint, spread: CGFloat) {
@@ -574,11 +765,12 @@ final class GameScene: SKScene {
         overLayer.zPosition = 30
         hud.addChild(overLayer)
 
-        let cardW = min(W * 0.84, H * 0.5)
+        let cardW = min(paneWidth * 0.84, H * 0.5)
         let cardH = cardW * 0.6
-        let center = CGPoint(x: W / 2, y: H * 0.52)
+        let center = CGPoint(x: uiX, y: H * 0.52)
 
         let dim = SKSpriteNode(color: .black, size: size)
+        dim.name = "dim"
         dim.anchorPoint = .zero
         dim.alpha = 0
         dim.zPosition = -1
@@ -653,7 +845,7 @@ final class GameScene: SKScene {
         bestValue.position = CGPoint(x: colX, y: -cardH * 0.3)
         card.addChild(bestValue)
 
-        let title = PosterLabel(GameScene.deathLines.randomElement()!, size: min(W * 0.17, H * 0.09),
+        let title = PosterLabel(GameScene.deathLines.randomElement()!, size: min(paneWidth * 0.17, H * 0.09),
                                 color: Palette.orange, depth: H * 0.007)
         title.position = CGPoint(x: center.x, y: center.y + cardH / 2 + H * 0.075)
         title.zRotation = -0.05
@@ -711,7 +903,7 @@ final class GameScene: SKScene {
                 SoundBoard.shared.play(.milestone, volume: 0.7)
                 Haptics.success()
                 guard let self else { return }
-                self.confetti(from: CGPoint(x: self.W / 2, y: self.H + 10), spread: .pi * 0.5)
+                self.confetti(from: CGPoint(x: self.uiX, y: self.H + 10), spread: .pi * 0.5)
             }]))
         }
 
