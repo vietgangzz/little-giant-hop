@@ -34,6 +34,7 @@
 		153C2D6E4B0BDCCBAB2F226F /* LittleGiantHop.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LittleGiantHop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1819DC828EA3FE606F2EA64B /* SoundBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundBoard.swift; sourceTree = "<group>"; };
 		1DE6DC9FDE7C132592F53EE3 /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
+		22AC98838D10BBFF4DE48503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3785CF35360113B6C8081539 /* hit.caf */ = {isa = PBXFileReference; path = hit.caf; sourceTree = "<group>"; };
 		41B00CD3FF13339D93F5F0F5 /* milestone.caf */ = {isa = PBXFileReference; path = milestone.caf; sourceTree = "<group>"; };
 		4BC86EA65431D252CCCC5325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		BC97314F3D9968A0A9F9D9C4 /* LittleGiantHop */ = {
 			isa = PBXGroup;
 			children = (
+				22AC98838D10BBFF4DE48503 /* Info.plist */,
 				F80F8377877F54940B6568B2 /* App */,
 				578471F4050A90CDAA49949A /* Audio */,
 				11D6B64605F751E83A6BAC1E /* Game */,
@@ -359,10 +361,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LittleGiantHop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "LG Hop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -385,10 +386,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LittleGiantHop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "LG Hop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
