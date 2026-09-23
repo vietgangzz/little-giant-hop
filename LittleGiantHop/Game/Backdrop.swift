@@ -19,7 +19,7 @@ final class Backdrop: SKNode {
     let size: CGSize
     let groundY: CGFloat
     private var skies: [SKSpriteNode] = []
-    private var themeIndex = 0
+    private(set) var themeIndex = 0
     private let sun = SKNode()
     private var farTiles: [SKSpriteNode] = []
     private var nearTiles: [SKSpriteNode] = []
@@ -28,9 +28,10 @@ final class Backdrop: SKNode {
     private let floorGlow = SKSpriteNode(texture: Art.softDot)
     private var stars: [SKSpriteNode] = []
 
-    init(size: CGSize) {
+    init(size: CGSize, theme: Int = 0) {
         self.size = size
         groundY = (size.height * 0.13).rounded()
+        themeIndex = theme % Backdrop.themes.count
         super.init()
         build()
     }
@@ -45,7 +46,7 @@ final class Backdrop: SKNode {
             sky.anchorPoint = .zero
             sky.size = size
             sky.zPosition = -100
-            sky.alpha = i == 0 ? 1 : 0
+            sky.alpha = i == themeIndex ? 1 : 0
             addChild(sky)
             skies.append(sky)
         }
@@ -68,7 +69,7 @@ final class Backdrop: SKNode {
             stars.append(s)
         }
 
-        let sunR = min(W * 0.34, H * 0.2)
+        let sunR = min(W * 0.34, H * 0.26)
         let sunSprite = SKSpriteNode(texture: Backdrop.sunTexture(radius: sunR))
         sunSprite.size = CGSize(width: sunR * 2.8, height: sunR * 2.8)
         sun.addChild(sunSprite)
@@ -134,7 +135,7 @@ final class Backdrop: SKNode {
         floorGlow.blendMode = .add
         addChild(floorGlow)
 
-        applyGridColor(Backdrop.themes[0].grid)
+        applyGridColor(Backdrop.themes[themeIndex].grid)
     }
 
     private func applyGridColor(_ c: UIColor) {
